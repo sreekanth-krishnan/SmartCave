@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="appliance_types">
+        <item>Light</item>
+        <item>Fan</item>
+        <item>TV</item>
+        <item>AC</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="conf">
+        <item>Wifi</item>
+        <item>Bluetooth</item>
+    </string-array>
+</resources>

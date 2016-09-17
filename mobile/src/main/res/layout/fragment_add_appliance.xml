@@ -1,0 +1,48 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.smartcave.app.AddApplianceActivityFragment"
+    tools:showIn="@layout/activity_add_appliance">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/spacing_normal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:hint="Appliance Name"
+                android:id="@+id/text_appliance_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Spinner
+                android:layout_marginBottom="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:id="@+id/spinner_appliance_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <EditText
+                android:inputType="number"
+                android:hint="Appliance Power Rating"
+                android:id="@+id/text_appliance_rating"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/text_appliance_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Appliance id" />
+        </LinearLayout>
+    </ScrollView>
+
+
+</RelativeLayout>
