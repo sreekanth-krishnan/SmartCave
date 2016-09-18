@@ -7,6 +7,7 @@ import android.bluetooth.BluetoothSocket;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -119,14 +120,14 @@ public class AppliancesFragment extends BaseFragment implements LoaderManager.Lo
         appliancesAdapter.swapCursor(null).close();
     }
 
-    private void onSwitchClicked(final long l, String id, final int state, final long stateTime, final long currentOperatedTime) {
+    private void onSwitchClicked(final long l, String id, final int state, final long stateTime, final long currentOperatedTime, final long powerRating) {
 
 
         new AsyncTask<Void, Void, Void>(){
 
             @Override
             protected Void doInBackground(Void... voids) {
-                updateUsage(l, state, stateTime, currentOperatedTime);
+                updateUsage(l, state, stateTime, currentOperatedTime, powerRating);
                 return null;
             }
         }.execute();
@@ -139,7 +140,7 @@ public class AppliancesFragment extends BaseFragment implements LoaderManager.Lo
         ((HomeActivity)getActivity()).sendCommand(p);
     }
 
-    private void updateUsage(long l, int state, long stateTime, long currentOperatedTime) {
+    private void updateUsage(long l, int state, long stateTime, long currentOperatedTime, long powerRating) {
         int newState = state == 0 ? 1 : 0;
 
         long now = System.currentTimeMillis();
@@ -153,6 +154,10 @@ public class AppliancesFragment extends BaseFragment implements LoaderManager.Lo
 
             //TODO value may change by this time. Use transaction?
             values.put(DBContract.Appliance.COLUMN_OPERATED_TIME, currentOperatedTime + operatedTime);
+
+            Intent intent = new Intent("com.revinin.kseb.USAGE_UPDATE");
+            intent.putExtra("units", CalcUtil.calculateUnitConsumed(powerRating, operatedTime/1000));
+            getContext().sendBroadcast(intent);
         }
 
         getContext().getContentResolver().update(ContentUris.withAppendedId(DBContract.Appliance.CONTENT_URI, l),
@@ -207,7 +212,7 @@ public class AppliancesFragment extends BaseFragment implements LoaderManager.Lo
                     public void onClick(View view) {
                         mSwitch.setChecked(state == 0);
 //                        mSwitch.setText(state == 0 ? "ON" : "OFF");
-                        onSwitchClicked(id, commandCode, state, stateTime, operatedTime);
+                        onSwitchClicked(id, commandCode, state, stateTime, operatedTime, powerRating);
                     }
                 });
 
